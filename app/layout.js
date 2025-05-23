@@ -7,6 +7,7 @@ import { CartProvider } from "./context/cartcontext";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PageTransitionWrapper from "@/Components/PageTransitionWrapper";
+import { Analytics } from "@vercel/analytics/next"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <PageTransitionWrapper>
             {children}
+            <Analytics/>
           </PageTransitionWrapper>
           <ToastContainer
             position="top-right"
