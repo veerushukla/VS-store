@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const page = () => {
     return (
-        <main className='min-h-screen'>
+        <main className='min-h-screen bg-black'>
             <div className="about flex justify-center items-center md:py-20 py-10">
                 <h1 className='md:text-6xl text-3xl'>About!</h1>
             </div>

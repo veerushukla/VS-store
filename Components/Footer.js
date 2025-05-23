@@ -5,14 +5,14 @@ const Footer = () => {
     return (
         <div>
             <div className='bg-white h-[1] w-full'></div>
-            <div className="nav md:pl-20 pl-10 py-8">
+            <div className="nav md:pl-20 pl-10 py-8 bg-black">
                 <div className="flex items-center gap-2">
                     <div className="logo flex items-center gap-2">
                         <Link className="bg-black text-white p-2 border-2 border-green-400 rounded-lg" href="/">
                             V-S
                         </Link>
                     </div>
-                    <span className="text-xl font-semibold ml-2">VS-store</span>
+                    <span className="text-xl font-semibold ml-2 text-white">VS-store</span>
                 </div>
                 <span className='flex pl-20 space-y-2 text-sm text-gray-400'>
                     <ol className='flex flex-col gap-2'>

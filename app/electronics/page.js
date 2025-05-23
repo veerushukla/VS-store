@@ -39,7 +39,7 @@ const Page = () => {
   });
 
   return (
-    <main className='min-h-screen px-4 py-6'>
+    <main className='min-h-screen px-4 py-6 bg-black'>
       <div className="flex flex-row gap-6">
         {/* sidebar */}
         <section className='md:w-[120px] w-auto shrink-0 space-y-4'>
@@ -65,7 +65,7 @@ const Page = () => {
         </section>
 
         {/* divider  */}
-        <div className="md:bg-white bg-black w-0.5"></div>
+        <div className="bg-white w-0.5"></div>
 
         {/* product section */}
         <section className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full'>

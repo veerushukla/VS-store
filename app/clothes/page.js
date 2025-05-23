@@ -91,7 +91,7 @@ export default function Page() {
   });
 
   return (
-    <main className="min-h-screen px-4 py-6">
+    <main className="min-h-screen px-4 py-6 bg-black">
       {/* Flex to keep sidebar and content side by side */}
       <div className="flex flex-row gap-6 overflow-hidden">
         {/* Sidebar - fixed width */}
@@ -109,7 +109,7 @@ export default function Page() {
         </aside>
 
         {/* Divider */}
-        <div className="md:bg-white bg-black w-0.5"></div>
+        <div className="bg-whitek w-0.5"></div>
 
         {/* Product Grid */}
         <section className="flex-1 min-w-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

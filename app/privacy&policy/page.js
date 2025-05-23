@@ -2,7 +2,7 @@ import React from 'react'
 
 const page = () => {
     return (
-        <main className='min-h-screen'>
+        <main className='min-h-screen bg-black'>
             <section className='heading flex md:py-20 py-10 items-center justify-center'>
                 <h1 className='md:text-6xl text-3xl text-center'>Privacy & Policy</h1>
             </section>

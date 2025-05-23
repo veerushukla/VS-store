@@ -207,7 +207,7 @@ const Navbar = () => {
             {/* Sliding Cart Drawer */}
             {/* Sliding Cart Drawer */}
             <div
-              className={`fixed top-0 right-0 h-full w-80 bg-[rgba(0,0,0,0.9)] backdrop-blur-md text-white shadow-lg z-[1000] transform transition-transform duration-300 ease-in-out ${opencart ? "translate-x-0" : "translate-x-full"
+              className={`fixed top-0 right-0 h-full w-80 bg-[rgba(0,0,0,0.5)] backdrop-blur-md text-white shadow-lg z-[1000] transform transition-transform duration-300 ease-in-out ${opencart ? "translate-x-0" : "translate-x-full"
                 }`}
             >
               <div className="p-4 flex justify-between items-center border-b">

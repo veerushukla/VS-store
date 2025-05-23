@@ -31,7 +31,7 @@ export default function Home() {
   };
 
   return (
-      <main className="shop min-h-screen">
+      <main className="shop min-h-screen bg-black">
         <div className="p-4">
           {/* items */}
           <div className="grid lg:grid-cols-[auto_auto] grid-rows-[auto_auto] gap-4 p-2">
