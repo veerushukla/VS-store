@@ -1,4 +1,5 @@
 import React from "react";
+import { ClerkProvider } from '@clerk/nextjs'
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/Components/Navbar";
@@ -8,9 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PageTransitionWrapper from "@/Components/PageTransitionWrapper";
 import { Analytics } from "@vercel/analytics/next"
-import { ClerkProvider } from '@clerk/nextjs'
 
-const clerkPubKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,12 +27,8 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  if (!clerkPubKey) {
-    throw new Error("Missing Clerk publishable key");
-  }
-  else console.log(clerkPubKey)
   return (
-    <ClerkProvider publishableKey={clerkPubKey}>
+    <ClerkProvider>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
             <CartProvider>
