@@ -263,10 +263,10 @@ const Navbar = () => {
           <div className='login relative flex flex-col items-center justify-center gap-2 w-fit'>
             <SignedOut>
               <SignInButton>
-                <button className='bg-black rounded-md border-2 border-gray-400 text-white py-1 px-2 hover:ease-in hover:scale-95'>Sign in</button>
+                <button className='bg-black rounded-md border-2 border-gray-400 text-white  hover:ease-in hover:scale-95'>Sign in</button>
                 </SignInButton>
               <SignUpButton>
-                <button className='bg-black rounded-md border-2 border-gray-400 text-white py-1 px-2 hover:ease-in hover:scale-95'>Sign up</button>
+                <button className='bg-black rounded-md border-2 border-gray-400 text-white hover:ease-in hover:scale-95'>Sign up</button>
               </SignUpButton>
             </SignedOut>
             <SignedIn>
