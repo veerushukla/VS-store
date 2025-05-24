@@ -9,6 +9,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import PageTransitionWrapper from "@/Components/PageTransitionWrapper";
 import { Analytics } from "@vercel/analytics/next"
 import { ClerkProvider } from '@clerk/nextjs'
+import { ClerkProvider } from '@clerk/clerk-react'
+
+const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
 
 const geistSans = Geist({
@@ -28,7 +31,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider publishableKey={publishableKey}>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
             <CartProvider>
