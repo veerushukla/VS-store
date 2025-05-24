@@ -18,6 +18,7 @@ const page = () => {
                 <div className="support flex flex-col justify-center items-center">
                     <h3 className='text-center'>Support real-world e-commerce site features:</h3>
                     <ol className=' flex flex-col list-disc'>
+                        <li>Authentication</li>
                         <li>Serach</li>
                         <li>Filter</li>
                         <li>Add to Cart</li>

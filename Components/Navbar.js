@@ -4,6 +4,13 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { useCart } from '@/app/context/cartcontext'
 import { toast } from 'react-toastify'
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from '@clerk/nextjs'
 
 const input = [
   {
@@ -197,7 +204,7 @@ const Navbar = () => {
           </div>
 
           {/* cart */}
-          <div className="relative">
+          <div className="relative flex items-center justify-center">
             <button onClick={() => setopencart(true)} className='cart cursor-pointer flex bg-white border-2 border-black rounded-lg'>
               <img className='w-10 h-10 p-2' src="/cart.png" alt="cart" />
             </button>
@@ -252,6 +259,19 @@ const Navbar = () => {
                 )}
               </div>
             </div>
+          </div>
+          <div className='login relative flex flex-col items-center justify-center gap-2 w-fit'>
+            <SignedOut>
+              <SignInButton>
+                <button className='bg-black rounded-md border-2 border-gray-400 text-white py-1 px-2 hover:ease-in hover:scale-95'>Sign in</button>
+                </SignInButton>
+              <SignUpButton>
+                <button className='bg-black rounded-md border-2 border-gray-400 text-white py-1 px-2 hover:ease-in hover:scale-95'>Sign up</button>
+              </SignUpButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
           </div>
         </div>
       </div>
