@@ -20,6 +20,8 @@ const input = [
   }
 ]
 
+
+
 const Navbar = () => {
 
   const [menuopen, setmenuopen] = useState(false)
@@ -38,6 +40,8 @@ const Navbar = () => {
       autoClose: 2000,
     });
   };
+
+  const totalPrice = cartItems.reduce((acc, item) => acc + item.price, 0);
 
 
 
@@ -234,7 +238,16 @@ const Navbar = () => {
                         </button>
                       </li>
                     ))}
-                    <button onClick={order} className='bg-white hover:cursor-pointer text-black rounded-md justify-center items-center px-2 py-1'>Place Order</button>
+                    <div className="mt-4 border-t pt-4">
+                      <p className="text-md font-semibold">Total: ${totalPrice.toFixed(2)}</p>
+                    </div>
+
+                    <button
+                      onClick={order}
+                      className="bg-white hover:cursor-pointer text-black rounded-md justify-center items-center px-2 py-1"
+                    >
+                      Place Order
+                    </button>
                   </ul>
                 )}
               </div>
