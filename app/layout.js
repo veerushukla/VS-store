@@ -2,6 +2,7 @@ import React from "react";
 import { ClerkProvider } from '@clerk/nextjs'
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ClientLayout from "@/Components/ClientLayout"
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
 import { CartProvider } from "./context/cartcontext";
@@ -31,24 +32,26 @@ export default function RootLayout({ children }) {
     <ClerkProvider>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-            <CartProvider>
-              <Navbar />
-              <PageTransitionWrapper>
+          <CartProvider>
+            <Navbar />
+            <PageTransitionWrapper>
+              <ClientLayout>
                 {children}
-                <Analytics />
-              </PageTransitionWrapper>
-              <ToastContainer
-                position="top-right"
-                autoClose={2000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                pauseOnHover
-                draggable
-                theme="dark"
-              />
-              <Footer />
-            </CartProvider>
+              </ClientLayout>
+              <Analytics />
+            </PageTransitionWrapper>
+            <ToastContainer
+              position="top-right"
+              autoClose={2000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              pauseOnHover
+              draggable
+              theme="dark"
+            />
+            <Footer />
+          </CartProvider>
         </body>
       </html>
     </ClerkProvider>
