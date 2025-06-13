@@ -235,7 +235,7 @@ const Navbar = () => {
                       <li key={item.id} className="flex justify-between items-center">
                         <div>
                           <p>{item.name}</p>
-                          <p className="text-sm text-gray-600">${item.price}</p>
+                          <p className="text-sm text-gray-600">₹{item.price}</p>
                         </div>
                         <button
                           onClick={() => removeFromCart(item.id)}
@@ -246,7 +246,7 @@ const Navbar = () => {
                       </li>
                     ))}
                     <div className="mt-4 border-t pt-4">
-                      <p className="text-md font-semibold">Total: ${totalPrice.toFixed(2)}</p>
+                      <p className="text-md font-semibold">Total: ₹{totalPrice.toFixed(2)}</p>
                     </div>
 
                     <button
