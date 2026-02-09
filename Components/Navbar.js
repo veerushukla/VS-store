@@ -82,7 +82,7 @@ const Navbar = () => {
             </div>
           </div>
           {/* mobile-naviagtion */}
-          <div className={`${menuopen ? "flex" : "hidden"} flex flex-col gap-2 bg-[#bfbfbf]/75 backdrop-blur-md p-4 mt-8 transition-all rounded-md md:hidden absolute left-4 right-4 top-[64px] z-50`}>
+          <div className={`${menuopen ? "flex" : "hidden"} flex flex-col gap-2 bg-[#bfbfbf]/75 backdrop-blur-md p-4 md:p-2  md:mt-4 mt-8 transition-all rounded-md md:hidden absolute left-4 right-4 top-[64px] z-50`}>
             <div className="block">
               <div className="block relative">
                 <input
@@ -285,4 +285,3 @@ const Navbar = () => {
 }
 
 export default Navbar
-
