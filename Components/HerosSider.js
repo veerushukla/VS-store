@@ -27,7 +27,15 @@ const slides = [
 
 const HeroSlider = () => {
     return (
-        <div className="w-full h-[400px] md:h-[600px] relative">
+        <div className="w-full relative">
+            <div className="max-w-5xl mx-auto px-4 pb-4 text-center">
+                <p className="text-xs uppercase tracking-widest text-black/60">Featured</p>
+                <h2 className="mt-2 text-2xl md:text-3xl font-semibold text-black">Weekly highlights</h2>
+                <p className="mt-2 text-sm md:text-base text-black/70">
+                    Curated picks across sports, electronics, and apparel. Explore the best deals of the week.
+                </p>
+            </div>
+            <div className="w-full h-[360px] md:h-[520px] relative">
             <Swiper
                 modules={[Navigation, Pagination, Autoplay]}
                 spaceBetween={30}
@@ -40,8 +48,8 @@ const HeroSlider = () => {
             >
                 {slides.map((slide, index) => (
                     <SwiperSlide key={index}>
-                        <div className="flex justify-center items-center w-full h-[400px] md:h-[600px]">
-                            <div className="relative flex justify-center items-center w-[250px] md:w-[400px] h-[300px] md:h-[400px] border-2 border-gray-700 rounded-md bg-[#1b1b1b] overflow-hidden">
+                        <div className="flex justify-center items-center w-full h-[360px] md:h-[520px]">
+                            <div className="relative flex justify-center items-center w-[220px] md:w-[340px] h-[260px] md:h-[340px] border border-gray-700/60 rounded-lg bg-[#1b1b1b] overflow-hidden shadow-sm">
                                 <Image
                                     src={slide.src}
                                     alt={slide.label}
@@ -60,6 +68,7 @@ const HeroSlider = () => {
                     </SwiperSlide>
                 ))}
             </Swiper>
+            </div>
         </div>
     )
 }

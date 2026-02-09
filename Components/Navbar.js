@@ -3,7 +3,6 @@ import React from 'react'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useCart } from '@/app/context/cartcontext'
-import { toast } from 'react-toastify'
 import {
   SignInButton,
   SignUpButton,
@@ -12,19 +11,19 @@ import {
   UserButton,
 } from '@clerk/nextjs'
 
-const input = [
-  {
-    id: "1",
-    name: "Clothes",
-  },
-  {
-    id: '2',
-    name: 'electronics',
-  },
-  {
-    id: '3',
-    name: 'sports',
-  }
+const searchItems = [
+  { id: "c1", name: "Black T-shirt", category: "Clothes", href: "/clothes" },
+  { id: "c2", name: "Blue Shirt", category: "Clothes", href: "/clothes" },
+  { id: "c3", name: "Red Shorts", category: "Clothes", href: "/clothes" },
+  { id: "c4", name: "Trouser", category: "Clothes", href: "/clothes" },
+  { id: "e1", name: "Asus TUF Laptop", category: "Electronics", href: "/electronics" },
+  { id: "e2", name: "ROG Laptop", category: "Electronics", href: "/electronics" },
+  { id: "e3", name: "iPhone", category: "Electronics", href: "/electronics" },
+  { id: "e4", name: "Mobile Pro", category: "Electronics", href: "/electronics" },
+  { id: "s1", name: "Football", category: "Sports", href: "/sports" },
+  { id: "s2", name: "Studs", category: "Sports", href: "/sports" },
+  { id: "s3", name: "Bat", category: "Sports", href: "/sports" },
+  { id: "s4", name: "Cone", category: "Sports", href: "/sports" },
 ]
 
 
@@ -41,20 +40,15 @@ const Navbar = () => {
 
   const { cartItems, removeFromCart } = useCart();
 
-  const order = () => {
-    toast.success("Thanks this is a demo website", {
-      position: "top-right",
-      autoClose: 2000,
-    });
-  };
-
   const totalPrice = cartItems.reduce((acc, item) => acc + item.price, 0);
 
 
 
-  const filterItems = input.filter((item) =>
-    search ? item.name.toLowerCase().includes(search.toLowerCase()) : true
-  )
+  const filterItems = searchItems.filter((item) => {
+    if (!search) return true
+    const q = search.toLowerCase()
+    return item.name.toLowerCase().includes(q) || item.category.toLowerCase().includes(q)
+  })
 
 
   const click = () => {
@@ -106,14 +100,17 @@ const Navbar = () => {
                     {filterItems.map((item) => (
                       <Link
                         key={item.id}
-                        href={`/${item.name.toLowerCase()}`}
+                        href={item.href}
                         className="block px-4 py-2 hover:bg-gray-200"
                         onClick={() => {
                           setsearch('');
                           closemenu();
                         }}
                       >
-                        {item.name}
+                        <div className="flex items-center justify-between gap-2">
+                          <span>{item.name}</span>
+                          <span className="text-xs text-black/60">{item.category}</span>
+                        </div>
                       </Link>
                     ))}
                   </div>
@@ -131,6 +128,8 @@ const Navbar = () => {
             <a onClick={(e) => { clickall(); closemenu(); }} className='block relative'>All</a>
             <Link onClick={closemenu} href="/clothes" className='block relative'>Clothes</Link>
             <Link onClick={closemenu} href="/electronics" className='block relative'>Electronics</Link>
+            <Link onClick={closemenu} href="/contact" className='block relative'>Contact</Link>
+            <Link onClick={closemenu} href="/order-tracking" className='block relative'>Order Tracking</Link>
           </div>
           {/* all naviagation */}
           <div className={`${openall ? 'flex' : 'hidden'} flex flex-col gap-2 items-center justify-center w-1/2s bg-[#bfbfbf]/75 backdrop-blur-md p-4 mt-8 transition-all rounded-md absolute left-4 right-4 top-[64px] z-50`}>
@@ -138,6 +137,8 @@ const Navbar = () => {
             <Link onClick={closeall} href="/sports" className='block relative'>Sports</Link>
             <Link onClick={closeall} href="/clothes" className='block relative'>Clothes</Link>
             <Link onClick={closeall} href="/electronics" className='block relative'>Electronics</Link>
+            <Link onClick={closeall} href="/contact" className='block relative'>Contact</Link>
+            <Link onClick={closeall} href="/order-tracking" className='block relative'>Order Tracking</Link>
           </div>
           {/* logo */}
           <div className="flex items-center gap-2">
@@ -160,9 +161,15 @@ const Navbar = () => {
               <Link className='relative group' href="/clothes">Clothes <span
                 className="absolute left-0 -bottom-0.5 h-0.5 w-full bg-black transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100 origin-left"
               ></span></Link>
-              <Link className='relative group' href="/electronics">Electronics <span
-                className="absolute left-0 -bottom-0.5 h-0.5 w-full bg-black transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100 origin-left"
-              ></span></Link>
+                <Link className='relative group' href="/electronics">Electronics <span
+                  className="absolute left-0 -bottom-0.5 h-0.5 w-full bg-black transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100 origin-left"
+                ></span></Link>
+                <Link className='relative group' href="/contact">Contact <span
+                  className="absolute left-0 -bottom-0.5 h-0.5 w-full bg-black transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100 origin-left"
+                ></span></Link>
+                <Link className='relative group' href="/order-tracking">Order Tracking <span
+                  className="absolute left-0 -bottom-0.5 h-0.5 w-full bg-black transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100 origin-left"
+                ></span></Link>
             </div>
           </div>
           {/* search-bar */}
@@ -184,11 +191,14 @@ const Navbar = () => {
                   {filterItems.map((item) => (
                     <Link
                       key={item.id}
-                      href={`/${item.name.toLowerCase()}`}
+                      href={item.href}
                       className="block px-4 py-2 hover:bg-gray-200"
                       onClick={() => setsearch('')}
                     >
-                      {item.name}
+                      <div className="flex items-center justify-between gap-2">
+                        <span>{item.name}</span>
+                        <span className="text-xs text-black/60">{item.category}</span>
+                      </div>
                     </Link>
                   ))}
                 </div>
@@ -223,7 +233,7 @@ const Navbar = () => {
             >
               <div className="p-4 flex justify-between items-center border-b">
                 <h2 className="text-lg font-bold">Your Cart</h2>
-                <button onClick={() => setopencart(false)} className="text-gray-400 text-xl">✕</button>
+                <button onClick={() => setopencart(false)} className="text-gray-400 text-xl">x</button>
               </div>
 
               <div className="p-4 overflow-y-scroll h-full">
@@ -235,26 +245,21 @@ const Navbar = () => {
                       <li key={item.id} className="flex justify-between items-center">
                         <div>
                           <p>{item.name}</p>
-                          <p className="text-sm text-gray-600">₹{item.price}</p>
+                          <p className="text-sm text-gray-600">INR {item.price}</p>
                         </div>
                         <button
                           onClick={() => removeFromCart(item.id)}
                           className="text-red-600"
                         >
-                          ✕
+                          x
                         </button>
                       </li>
                     ))}
                     <div className="mt-4 border-t pt-4">
-                      <p className="text-md font-semibold">Total: ₹{totalPrice.toFixed(2)}</p>
+                      <p className="text-md font-semibold">Total: INR {totalPrice.toFixed(2)}</p>
                     </div>
 
-                    <button
-                      onClick={order}
-                      className="bg-white hover:cursor-pointer text-black rounded-md justify-center items-center px-2 py-1"
-                    >
-                      Place Order
-                    </button>
+                    <Link href="/checkout" onClick={() => setopencart(false)} className="bg-white text-black rounded-md justify-center items-center px-3 py-2 inline-flex">Go to Checkout</Link>
                   </ul>
                 )}
               </div>
@@ -280,3 +285,4 @@ const Navbar = () => {
 }
 
 export default Navbar
+

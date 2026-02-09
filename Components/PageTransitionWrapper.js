@@ -4,24 +4,27 @@
 import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 
-const slideIn = {
+const pageTransition = {
   initial: {
-    x: '100%',
     opacity: 0,
+    y: 12,
+    filter: 'blur(6px)',
   },
   animate: {
-    x: '0%',
     opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
     transition: {
-      duration: 0.5,
+      duration: 0.45,
       ease: [0.4, 0, 0.2, 1],
     },
   },
   exit: {
-    x: '-50%',
     opacity: 0,
+    y: -8,
+    filter: 'blur(6px)',
     transition: {
-      duration: 0.4,
+      duration: 0.3,
       ease: [0.4, 0, 0.2, 1],
     },
   },
@@ -34,11 +37,11 @@ export default function PageTransitionWrapper({ children }) {
     <AnimatePresence mode="wait">
       <motion.div
         key={pathname}
-        variants={slideIn}
+        variants={pageTransition}
         initial="initial"
         animate="animate"
         exit="exit"
-        className="min-h-screen bg-gradient-to-br  text-white"
+        className="min-h-screen"
       >
         {children}
       </motion.div>

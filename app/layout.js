@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <CartProvider>
-            <Navbar />
+            <Navbar className="bg-white text-black p-4 relative"/>
             <PageTransitionWrapper>
               <ClientLayout>
                 {children}

@@ -1,134 +1,160 @@
 "use client"
-import React from 'react';
-import Image from 'next/image';
-import { useState } from 'react';
-import { useCart } from '../context/cartcontext';
+import React, { useMemo, useState } from "react";
+import Image from "next/image";
+import { useCart } from "../context/cartcontext";
 
 const products = [
-  { id: 1, name:'Black-T-shirt', image: '/tshirt.avif', price: 499, category: 'T-Shirts' },
-  { id: 2, name:'Blue-shirt', image: '/shirt.png', price: 1899, category: 'Shirts' },
-  { id: 3, name:'Red-short', image: '/short1.png', price: 700, category: 'Shorts' },
-  { id: 4, name:'Trouser', image: '/trowser1.png', price: 2500, category: 'Trousers' },
+  { id: 1, name: "Black T-shirt", image: "/tshirt.avif", price: 499, category: "T-Shirts" },
+  { id: 2, name: "Blue Shirt", image: "/shirt.png", price: 1899, category: "Shirts" },
+  { id: 3, name: "Red Shorts", image: "/short1.png", price: 700, category: "Shorts" },
+  { id: 4, name: "Trouser", image: "/trowser1.png", price: 2500, category: "Trousers" },
 ];
 
-const FilterSection = ({ title, items, onSelectFilter }) => (
-  <div>
-    <h3 className="font-semibold mb-1">{title}</h3>
-    <ul className="pl-2 space-y-1">
-      {items.map((item, idx) => (
-        <li
-          key={idx}
-          className="font-normal text-sm cursor-pointer hover:underline"
-          onClick={() => onSelectFilter(item)} // On filter click
-        >
-          {item}
-        </li>
-      ))}
-    </ul>
-  </div>
+const categories = ["T-Shirts", "Shirts", "Shorts", "Trousers"];
+const priceRanges = [
+  { label: "Under INR 500", test: (p) => p < 500 },
+  { label: "INR 500 - INR 1000", test: (p) => p >= 500 && p <= 1000 },
+  { label: "INR 1000 - INR 2000", test: (p) => p > 1000 && p <= 2000 },
+  { label: "INR 2000 - INR 3000", test: (p) => p > 2000 && p <= 3000 },
+];
+
+const FilterChip = ({ active, label, onClick }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={`text-left px-3 py-2 rounded-md border text-sm transition ${active
+      ? "bg-black text-white border-black"
+      : "bg-white text-black border-black/15 hover:bg-black/5"}`}
+  >
+    {label}
+  </button>
 );
 
-const ProductCard = ({ image, price, onAdd }) => (
-  <div className="relative bg-[#1b1b1b] border-2 border-white hover:border-blue-600 rounded-md overflow-hidden">
-    <div className="w-full aspect-[3/4] relative">
+const ProductCard = ({ product, onAdd }) => (
+  <div className="bg-white border border-black/10 rounded-lg overflow-hidden flex flex-col">
+    <div className="relative aspect-[3/4] bg-[#f3f1ee]">
       <Image
-        src={image}
-        alt="product"
+        src={product.image}
+        alt={product.name}
         fill
-        className="object-cover transition-transform duration-300 hover:scale-110"
+        className="object-cover"
       />
     </div>
-    <div className="absolute bottom-4 left-4 flex items-center gap-2 bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-md">
-      <button onClick={onAdd} className="text-sm font-medium text-gray-800 hover:underline">Buy Now</button>
-      <span className="text-xs font-semibold bg-gray-300 text-black px-2 py-1 rounded-full">₹{price}</span>
+    <div className="p-4 flex-1 flex flex-col">
+      <p className="text-xs uppercase tracking-widest text-black/60">{product.category}</p>
+      <h3 className="mt-1 text-lg font-semibold">{product.name}</h3>
+      <p className="mt-2 text-sm text-black/70">INR {product.price}</p>
+      <button
+        onClick={onAdd}
+        className="mt-4 bg-black text-white rounded-md px-4 py-2"
+      >
+        Add to cart
+      </button>
     </div>
   </div>
 );
 
 export default function Page() {
-
-  // cart
   const { addToCart } = useCart();
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedPrice, setSelectedPrice] = useState("");
 
-  // State for selected filters
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedPriceRange, setSelectedPriceRange] = useState(null);
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) => {
+      const categoryOk = selectedCategory ? product.category === selectedCategory : true;
+      const priceOk = selectedPrice
+        ? priceRanges.find((r) => r.label === selectedPrice)?.test(product.price)
+        : true;
+      return categoryOk && priceOk;
+    });
+  }, [selectedCategory, selectedPrice]);
 
-  // Function to select a category filter
-  const handleCategoryFilter = (category) => {
-    setSelectedCategory(category);
+  const clearFilters = () => {
+    setSelectedCategory("");
+    setSelectedPrice("");
   };
-
-  // Function to select a price range filter
-  const handlePriceFilter = (range) => {
-    setSelectedPriceRange(range);
-  };
-
-  // Filter products based on selected filters
-  const filteredProducts = products.filter((product) => {
-    let categoryMatch = true;
-    let priceMatch = true;
-
-    // Filter by category
-    if (selectedCategory) {
-      categoryMatch = product.category === selectedCategory;
-    }
-
-    // Filter by price range
-    if (selectedPriceRange) {
-      if (selectedPriceRange === 'Under ₹500') {
-        priceMatch = product.price < 500;
-      } else if (selectedPriceRange === '₹500 - ₹1000') {
-        priceMatch = product.price >= 500 && product.price <= 1000;
-      } else if (selectedPriceRange === '₹1000 - ₹2000') {
-        priceMatch = product.price > 1000 && product.price <= 2000;
-      } else if (selectedPriceRange === '₹2000 - ₹3000') {
-        priceMatch = product.price > 2000 && product.price <= 3000;
-      }
-    }
-
-    return categoryMatch && priceMatch;
-  });
 
   return (
-    <main className="min-h-screen px-4 py-6 bg-black">
-      {/* Flex to keep sidebar and content side by side */}
-      <div className="flex flex-row gap-6 overflow-hidden">
-        {/* Sidebar - fixed width */}
-        <aside className="md:w-[120px] w-auto shrink-0 space-y-4">
-          <FilterSection
-            title="Category"
-            items={['T-Shirts', 'Shirts', 'Shorts', 'Trousers']}
-            onSelectFilter={handleCategoryFilter}
-          />
-          <FilterSection
-            title="Price"
-            items={['Under ₹500', '₹500 - ₹1000', '₹1000 - ₹2000', '₹2000 - ₹3000']}
-            onSelectFilter={handlePriceFilter}
-          />
-        </aside>
+    <main className="min-h-screen bg-[#f7f5f2] text-[#111]">
+      <section className="border-b border-black/10">
+        <div className="max-w-6xl mx-auto px-6 py-10 md:py-12">
+          <p className="text-xs uppercase tracking-widest text-black/60">Category</p>
+          <h1 className="mt-2 text-3xl md:text-5xl font-semibold">Clothes</h1>
+          <p className="mt-3 max-w-2xl text-black/70">
+            Explore comfortable everyday clothing with clean designs and easy sizing.
+          </p>
+        </div>
+      </section>
 
-        {/* Divider */}
-        <div className="bg-whitek w-0.5"></div>
+      <section className="max-w-6xl mx-auto px-6 py-10 md:py-12">
+        <div className="grid md:grid-cols-[260px_1fr] gap-8">
+          {/* Filters */}
+          <aside className="bg-white border border-black/10 rounded-lg p-5 h-fit">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-semibold">Filters</h2>
+              <button
+                type="button"
+                onClick={clearFilters}
+                className="text-sm underline"
+              >
+                Clear
+              </button>
+            </div>
 
-        {/* Product Grid */}
-        <section className="flex-1 min-w-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {filteredProducts.map((p) => (
-            <ProductCard key={p.id}
-             image={p.image}
-              price={p.price}
-               onAdd={() => addToCart({
-                id: p.id,
-                name: p.name,
-                image: p.image,
-                price: p.price,
-                quantity: 1,
-              })
-            }
-            />
-          ))}
-        </section>
-      </div>
+            <div className="mt-5">
+              <p className="text-sm font-semibold">Category</p>
+              <div className="mt-3 grid gap-2">
+                {categories.map((c) => (
+                  <FilterChip
+                    key={c}
+                    label={c}
+                    active={selectedCategory === c}
+                    onClick={() => setSelectedCategory(c === selectedCategory ? "" : c)}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <p className="text-sm font-semibold">Price</p>
+              <div className="mt-3 grid gap-2">
+                {priceRanges.map((r) => (
+                  <FilterChip
+                    key={r.label}
+                    label={r.label}
+                    active={selectedPrice === r.label}
+                    onClick={() => setSelectedPrice(r.label === selectedPrice ? "" : r.label)}
+                  />
+                ))}
+              </div>
+            </div>
+          </aside>
+
+          {/* Results */}
+          <div>
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-black/70">{filteredProducts.length} items</p>
+            </div>
+            <div className="mt-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredProducts.map((p) => (
+                <ProductCard
+                  key={p.id}
+                  product={p}
+                  onAdd={() =>
+                    addToCart({
+                      id: p.id,
+                      name: p.name,
+                      image: p.image,
+                      price: p.price,
+                      quantity: 1,
+                    })
+                  }
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

@@ -11,18 +11,21 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = (item) => {
     setCartItems((prev) => [...prev, item]);
-    toast.success(`${item.name} added to cart! 🛒`);
+    toast.success(`${item.name} added to cart!`);
   };
 
   const removeFromCart = (id) => {
     setCartItems((prev) => prev.filter((item) => item.id !== id));
-    toast.info(`Item removed from cart.`);
+    toast.info("Item removed from cart.");
+  };
+
+  const clearCart = () => {
+    setCartItems([]);
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );
 };
-
